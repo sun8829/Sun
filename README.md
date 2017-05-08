@@ -1,14 +1,39 @@
 # Android开发框架搭建Android-Sun-Framework
 
-## 写在前面
+## 一. 写在前面
 Android-Sun-Framework是一个Android组件化开发框架，可用于大型项目开发。
-## 框架结构
+## 二. 框架结构
 遵循高内聚低耦合理念，Module之间没有强依赖，具体结构如下图：
+## 三. 框架依赖
+```
+//Rx系列
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+
+    //Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    //路由
+    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+
+    //图片加载
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    //下拉刷新
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
+
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.15'
+```
+
+
 
 ![](http://bmob-cdn-9267.b0.upaiyun.com/2017/05/08/e510ffaa407bc1bf805f6ef00e55c0f8.png)
-## 详细说明
+## 三. 详细说明
 下面我会根据代码，详细讲解框架结构及其使用说明。
-### 一. 配置中心config.gradle
+### A. 配置中心config.gradle
 ```
 ext {
     android = [
@@ -120,10 +145,10 @@ dependencies {
 
 这里我们只关注dependencies，根据isModule来配置是否依赖该Module.
 2. 当isModule为真时，Module可以单独运行，这样做的好处是：一：大大缩减编译时间；二：可以跨部门，跨团队协作。
-### 二. Module间跳转
+### B. Module间跳转
 对比[ARouter](https://github.com/alibaba/ARouter)与[ActivityRouter](https://github.com/mzule/ActivityRouter),我决定使用ActivityRouter，主要原因有两个：
 1. 由于ARouter加入分组概念，和我们公司当前已有设计相违背；
-2. ActivityRouter比ARouter精简，后面我会分享一下ActivityRouter和ARouter的实现原理，敬请期待！
+2. ActivityRouter比ARouter精简，后面我会分享一下ActivityRouter和ARouter的实现原理，**敬请期待！**
 
 ActivityRouter具体如何使用我就不再赘述，详细可以查看[ActivityRouter](https://github.com/mzule/ActivityRouter)，里面有详细的说明和demo。我在这里要强调一下ActivityRouter多模块需要如何实现？
 实现步骤：
@@ -143,14 +168,14 @@ public class AppModule {
 }
 ```
 
-3. 关联Module
+3. Module注册
 ```
 @Modules({"app", "login"})
 public class OdyApplication extends BaseApplication {
 }
 ```
 
-### 三. 网络库封装
+### C. 网络库封装
 做Android开发的想必大家都知道Retrofit和Rxjava，我们也是使用的他们，为了更好的控制网络请求，这里我同时引入了Rxlifecycle。接下来我们看看具体是如何实现的
 
 1. 添加依赖
@@ -299,4 +324,4 @@ public abstract class HttpObserver<T> implements Observer<T> {
 }
 ```
 
-final是为了避免用户重写，强制重写后面自定义的几个方法。
+**final是为了避免用户重写，强制重写后面自定义的几个方法。**
