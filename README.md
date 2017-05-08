@@ -84,8 +84,8 @@ dependencies {
 
 ```
 
-仔细的同学可能会问，sourceSets的配置是干嘛的？由于application 必须要有默认启动Activity，所以这里我们需要根据isModule使用不同的AndroidManifest.xml,每个模块可能会有测试代码，所以只要把测试代码写在debug包下面，正式编译的时候debug下面的java文件不会参与编译。
 我们主要看一下rootProject.ext.android.isModule的if判断，这里根据它来配置当前模块plugin为library还是application。当为application时，下面会增加applicationId的配置。
+仔细的同学可能会问，sourceSets的配置是干嘛的？由于application 必须要有默认启动Activity，所以这里我们需要根据isModule使用不同的AndroidManifest.xml,每个模块可能会有测试代码，所以只要把测试代码写在debug包下面，正式编译的时候debug下面的java文件不会参与编译。
 同样的我们来看一下主Module的配置：
 ```
 apply plugin: 'com.android.application'
