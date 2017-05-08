@@ -149,3 +149,154 @@ public class AppModule {
 public class OdyApplication extends BaseApplication {
 }
 ```
+
+### 三. 网络库封装
+做Android开发的想必大家都知道Retrofit和Rxjava，我们也是使用的他们，为了更好的控制网络请求，这里我同时引入了Rxlifecycle。接下来我们看看具体是如何实现的
+
+1. 添加依赖
+```
+//Rx系列
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+
+    //Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+```
+2. Retrofit接口定义
+```
+public interface BaseNetApi {
+    @GET("/api/dolphin/list?&platform=3&platformId=0&pageCode=APP_HOME&adCode=ad_banner&areaCode=310115")
+    Observable<AdBean> getAd(@QueryMap Map<String, String> params);
+}
+```
+
+3. Retrofit初始化和具体实现
+```
+public class SingletonNet {
+    public static final String BASE_URL = "http://api.laiyifen.com";
+    private static final int DEFAULT_TIMEOUT = 30;
+    private Retrofit retrofit;
+    private volatile static SingletonNet INSTANCE = null;
+
+    private SingletonNet() {
+        //手动创建一个OkHttpClient并设置超时时间
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder
+                //添加公共header
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request.Builder builder = chain.request().newBuilder();
+                        builder.addHeader("token", "123");
+                        return chain.proceed(builder.build());
+                    }
+                })
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+
+        Retrofit.Builder b = new Retrofit.Builder()
+                .client(builder.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(BASE_URL);
+
+        retrofit = b.build();
+    }
+
+    public static SingletonNet getSingleton() {
+        if (INSTANCE == null) {
+            synchronized (SingletonNet.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new SingletonNet();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public <T> T getNetService(Class<T> t) {
+        return retrofit.create(t);
+    }
+
+}
+```
+我们使用泛型，为各个模块创建自己的API，这样做能更好的解耦。同时我们也在基础库里实现了BaseNetApi，这里主要是项目中重复使用的接口，放在这里提现高内聚。我们再来看一下其他Module里是如何创建的
+```
+
+public class MainHttpClient extends BaseHttpClient {
+
+    private static class SingletonHolder {
+        private static final MainApi API = SingletonNet.getSingleton().getNetService(MainApi.class);
+    }
+
+    public static Observable<AdBean> get() {
+        Map<String, String> params = new HashMap<>();
+        return SingletonHolder.API.get(params);
+    }
+}
+```
+
+这里采用静态内部类实现了单例，和SingletonNet的单例有区别。
+4. 具体使用
+```java
+ MainHttpClient.get()
+                .compose(RxSchedulers.<AdBean>compose())
+                .compose(this.<AdBean>bindToLifecycle())
+                .subscribe(new HttpObserver<AdBean>(mContext) {
+
+                    @Override
+                    protected void success(AdBean bean) {
+                        super.success(bean);
+                    }
+
+                });
+```
+.compose(RxSchedulers.<AdBean>compose())线程调度等重复操作放在这里；
+.compose(this.<AdBean>bindToLifecycle()) 网络请求和Activity生命周期想关联。
+HttpObserver的实现如下：
+```java
+public abstract class HttpObserver<T> implements Observer<T> {
+    private Context mContext;
+
+    protected HttpObserver(Context context) {
+        mContext = context.getApplicationContext();
+    }
+
+    @Override
+    public final void onSubscribe(Disposable d) {
+
+    }
+
+    @Override
+    public final void onNext(T value) {
+        success(value);
+    }
+
+    @Override
+    public final void onError(Throwable e) {
+        error(e.toString());
+    }
+
+    @Override
+    public final void onComplete() {
+        complete();
+    }
+
+
+    protected void success(T t) {
+    }
+
+    protected void error(String msg) {
+    }
+
+    protected void complete() {
+
+    }
+}
+```
+
+final是为了避免用户重写，强制重写后面自定义的几个方法。
