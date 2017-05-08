@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主题色-->
+    <color name="theme_color">#CC0000</color>
+    <!-- 页面背景色-->
+    <color name="background_color">#f5f5f5</color>
+    <!-- 分割线颜色-->
+    <color name="divider_color">#e5e5e5</color>
+    <!-- EditText hint颜色-->
+    <color name="edittext_hint_color">#dddddd</color>
+    <!-- 主题按扭文字颜色-->
+    <color name="button_text_color">#ffffff</color>
+    <!-- 正标题颜色-->
+    <color name="main_title_color">#333333</color>
+    <!-- 次标题颜色-->
+    <color name="sub_title_color">#666666</color>
+    <!-- 注释、补充内容颜色-->
+    <color name="note_color">#999999</color>
+    <!--广告背景色-->
+    <color name="advertisement_backgrond">#FFFAC4</color>
+    <!--浅白色背景-->
+    <color name="tint_white_background">#fafafa</color>
+
+    <!-- 次标题颜色-->
+    <color name="rectangle_bead">#b2b2b2</color>
+    <!--常用色 -->
+    <color name="bold_black">#241c0a</color>
+    <color name="background_transparent">#00FFFFFF</color>
+    <color name="transparent">#FFFFFFFF</color>
+    <color name="white">#ffffff</color>
+    <color name="scan_background">#60000000</color>
+    <color name="scan_border">#ff09BB07</color>
+    <color name="mainhome_time_green">#2F7979</color>
+    <color name="orange">#ff6600</color>
+    <color name="grey">#cccccc</color>
+    <color name="banner_normal">#30333333</color>
+    <color name="half_input">#e0FFFFFF</color>
+    <color name="transp_black_50">#30000000</color>
+    <color name="user_bg_color">#6eFFFFFF</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="blue">#0066cc</color>
+    <color name="green">#2eb97c</color>
+    <color name="comment_popup_tx_bg">#c7c7c7</color>
+    <color name="border_golden">#b7913f</color>
+    <color name="lucency_bg">#00000000</color>
+    <color name="des_rank_bg">#F3B700</color>
+    <color name="black">#000000</color>
+    <color name="result_gorden_bg">#FCB203</color>
+    <color name="result_de_bg">#FEF7F1</color>
+    <color name="line_color">#D9D9D9</color>
+
+    <color name="activity_bg_color">#F0F0F0</color>
+    <color name="title_search_bg">#6007091f</color>
+    <color name="grey_text_color">#808080</color>
+    <color name="light_grey_text_color">#B2B2B2</color>
+    <color name="sure_dialog_color">#2cb2ff</color>
+    <color name="fresh_bg_color">#f0f0f0</color>
+    <color name="tag_text_bg">#E1E1E1</color>
+    <color name="hint_text_color">#dddddd</color>
+
+    <!--特殊颜色穷举-->
+    <color name="CDDDDDD">#dddddd</color>
+    <color name="C22ffffff">#22ffffff</color>
+    <color name="CFF6900">#FF6900</color>
+    <color name="CF79100">#F79100</color>
+</resources>

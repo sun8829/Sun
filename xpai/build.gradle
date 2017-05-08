@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.ody.xpai"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    if (rootProject.ext.android.isModule) {
+        compile project(':library')
+    }
+    if (!rootProject.ext.android.isModule) {
+        compile project(':guide')
+    }
+    if (!rootProject.ext.android.isModule) {
+        compile project(':login')
+    }
+    if (!rootProject.ext.android.isModule) {
+        compile project(':trade')
+    }
+    if (!rootProject.ext.android.isModule) {
+        compile project(':usercenter')
+    }
+}

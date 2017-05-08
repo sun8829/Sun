@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        buildConfigField("boolean", "IS_DEBUG", rootProject.ext.android.isDebug)
+        buildConfigField("String", "SCHEME", rootProject.ext.android.scheme)
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    //google扩展包
+    compile 'com.android.support:appcompat-v7:' + rootProject.ext.dependencies.supportVersion
+    compile 'com.android.support:design:' + rootProject.ext.dependencies.supportVersion
+
+    //约束布局
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+
+    //Rx系列
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+
+    //Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    //路由
+    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+
+    //图片加载
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    //下拉刷新
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
+
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.15'
+}
