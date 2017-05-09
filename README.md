@@ -5,7 +5,7 @@ Android-Sun-Framework是一个Android组件化开发框架，可用于大型项�
 ## 二. 框架结构
 遵循高内聚低耦合理念，Module之间没有强依赖，具体结构如下图：
 ## 三. 框架依赖
-```
+```groovy
 //Rx系列
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
@@ -34,7 +34,7 @@ Android-Sun-Framework是一个Android组件化开发框架，可用于大型项�
 ## 三. 详细说明
 下面我会根据代码，详细讲解框架结构及其使用说明。
 ### A. 配置中心config.gradle
-```
+```groovy
 ext {
     android = [
             compileSdkVersion: 25,
@@ -57,7 +57,7 @@ ext {
 当前配置项还不多，后面会根据实际开发需要，优化配置。
 这里我单独说明一下isModule的作用：
 1. 当isModule为真时，除了library子模块为library，其他子模块均为application，我们以login模块为例，看一下是如何实现的
-```
+```groovy
 if (rootProject.ext.android.isModule) {
     apply plugin: 'com.android.application'
 } else {
@@ -112,7 +112,7 @@ dependencies {
 我们主要看一下rootProject.ext.android.isModule的if判断，这里根据它来配置当前模块plugin为library还是application。当为application时，下面会增加applicationId的配置。
 仔细的同学可能会问，sourceSets的配置是干嘛的？由于application 必须要有默认启动Activity，所以这里我们需要根据isModule使用不同的AndroidManifest.xml,每个模块可能会有测试代码，所以只要把测试代码写在debug包下面，正式编译的时候debug下面的java文件不会参与编译。
 同样的我们来看一下主Module的配置：
-```
+```groovy
 apply plugin: 'com.android.application'
 
 android {
@@ -153,33 +153,56 @@ dependencies {
 ActivityRouter具体如何使用我就不再赘述，详细可以查看[ActivityRouter](https://github.com/mzule/ActivityRouter)，里面有详细的说明和demo。我在这里要强调一下ActivityRouter多模块需要如何实现？
 实现步骤：
 
-1. 在子Module中新建一个Module类，比如我这里的login模块：
-```
+a. 在子Module中新建一个Module类，比如我这里的login模块：
+```java
 @Module("login")
 public class LoginModule {
 }
 
 ```
 
-2. 同样在主Module中也需要新建一个类
-```
+b. 同样在主Module中也需要新建一个类
+```java
 @Module("app")
 public class AppModule {
 }
 ```
 
-3. Module注册
-```
+c. Module注册
+```java
 @Modules({"app", "login"})
 public class OdyApplication extends BaseApplication {
 }
 ```
+d. 界面跳转
+为了能统一处理，自己把ActivityRouter的跳转封装了一层：
+```java
+public class JumpUtils {
+    public final static String LOGIN_URL = "login";
+
+    public static void open(Context context, String url) {
+        Routers.open(context, BuildConfig.SCHEME + "://" + url);
+    }
+
+    public static void open(Context context, String url, RouterCallback callback) {
+        Routers.open(context, BuildConfig.SCHEME + "://" + url, callback);
+    }
+}
+```
+JumpUtils里的常量就是跳转注解路径
+```java
+@Router(JumpUtils.LOGIN_URL)
+public class LoginActivity extends BaseActivity {
+    ......
+}
+```
+以上都是为了能更好的**统一管理，避免后期修改多处**。
 
 ### C. 网络库封装
 做Android开发的想必大家都知道Retrofit和Rxjava，我们也是使用的他们，为了更好的控制网络请求，这里我同时引入了Rxlifecycle。接下来我们看看具体是如何实现的
 
 1. 添加依赖
-```
+```groovy
 //Rx系列
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
@@ -192,7 +215,7 @@ public class OdyApplication extends BaseApplication {
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
 ```
 2. Retrofit接口定义
-```
+```java
 public interface BaseNetApi {
     @GET("/api/dolphin/list?&platform=3&platformId=0&pageCode=APP_HOME&adCode=ad_banner&areaCode=310115")
     Observable<AdBean> getAd(@QueryMap Map<String, String> params);
@@ -200,7 +223,7 @@ public interface BaseNetApi {
 ```
 
 3. Retrofit初始化和具体实现
-```
+```java
 public class SingletonNet {
     public static final String BASE_URL = "http://api.laiyifen.com";
     private static final int DEFAULT_TIMEOUT = 30;
@@ -250,7 +273,7 @@ public class SingletonNet {
 }
 ```
 我们使用泛型，为各个模块创建自己的API，这样做能更好的解耦。同时我们也在基础库里实现了BaseNetApi，这里主要是项目中重复使用的接口，放在这里提现高内聚。我们再来看一下其他Module里是如何创建的
-```
+```java
 
 public class MainHttpClient extends BaseHttpClient {
 
