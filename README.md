@@ -2,8 +2,15 @@
 
 ## 一. 写在前面
 Android-Sun-Framework是一个Android组件化开发框架，可用于大型项目开发。
+> 欢迎Star or Follow我的[GitHub](https://github.com/samuelhuahui/Sun)
+
+> 欢迎搜索微信公众号**SamuelAndroid**关注我，定期推送原创文章和代码。
+
 ## 二. 框架结构
 遵循高内聚低耦合理念，Module之间没有强依赖，具体结构如下图：
+
+![](http://bmob-cdn-9267.b0.upaiyun.com/2017/05/08/e510ffaa407bc1bf805f6ef00e55c0f8.png)
+
 ## 三. 框架依赖
 ```groovy
 //Rx系列
@@ -29,8 +36,6 @@ Android-Sun-Framework是一个Android组件化开发框架，可用于大型项�
 ```
 
 
-
-![](http://bmob-cdn-9267.b0.upaiyun.com/2017/05/08/e510ffaa407bc1bf805f6ef00e55c0f8.png)
 ## 三. 详细说明
 下面我会根据代码，详细讲解框架结构及其使用说明。
 ### A. 配置中心config.gradle
@@ -272,7 +277,7 @@ public class SingletonNet {
 
 }
 ```
-我们使用泛型，为各个模块创建自己的API，这样做能更好的解耦。同时我们也在基础库里实现了BaseNetApi，这里主要是项目中重复使用的接口，放在这里提现高内聚。我们再来看一下其他Module里是如何创建的
+我们使用泛型，为各个模块创建自己的API，这样做能更好的解耦。同时我们也在基础库里实现了BaseNetApi，这里是项目中重复使用的接口，避免多处实现同一个接口。我们再来看一下其他Module里是如何创建的
 ```java
 
 public class MainHttpClient extends BaseHttpClient {
