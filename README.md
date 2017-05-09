@@ -353,3 +353,13 @@ public abstract class HttpObserver<T> implements Observer<T> {
 ```
 
 **final是为了避免用户重写，强制重写后面自定义的几个方法。**
+
+## TOTO
+1. 引入dagger2
+2. 开启混淆
+3. 分享基础库
+4. 图片选择
+5. 下拉刷新
+6. 轮播
+7. 客服
+8. 推送
