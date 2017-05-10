@@ -29,8 +29,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     //路由
     annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
+    compile project(':library:PhotoPicker')
     if (rootProject.ext.android.isModule) {
-        compile project(':library')
+        compile project(':library:baselibrary')
     }
     if (!rootProject.ext.android.isModule) {
         compile project(':guide')

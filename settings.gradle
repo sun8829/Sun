@@ -1,1 +1,1 @@
-include ':app', ':library', ':usercenter', ':trade', ':guide', ':login'
+include ':app', ':library:baselibrary', ':usercenter', ':trade', ':guide', ':login', ':library:PhotoPicker'

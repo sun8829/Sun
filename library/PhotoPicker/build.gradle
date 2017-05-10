@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    resourcePrefix "__picker_"
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile "com.android.support:support-v4:" + rootProject.ext.dependencies.supportVersion
+    compile "com.android.support:appcompat-v7:" + rootProject.ext.dependencies.supportVersion
+    compile "com.android.support:design:" + rootProject.ext.dependencies.supportVersion
+    compile "com.android.support:recyclerview-v7:" + rootProject.ext.dependencies.supportVersion
+    compile "com.android.support:support-annotations:" + rootProject.ext.dependencies.supportVersion
+    compile "com.nineoldandroids:library:2.4.0"
+    compile "com.github.bumptech.glide:glide:3.7.0"
+}
