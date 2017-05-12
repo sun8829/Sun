@@ -6,6 +6,8 @@ Android-Sun-Framework是一个Android组件化开发框架，可用于大型项�
 
 > 欢迎搜索微信公众号**SamuelAndroid**关注我，定期推送原创文章和代码。
 
+![](http://upload-images.jianshu.io/upload_images/4751442-30878689318053ae.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ## 二. 框架结构
 遵循高内聚低耦合理念，Module之间没有强依赖，具体结构如下图：
 
