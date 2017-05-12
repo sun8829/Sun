@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ody.library.base.BaseActivity;
@@ -16,6 +17,7 @@ import com.ody.ody.R;
 import com.ody.ody.test.MainHttpClient;
 import com.ody.photopicker.PhotoPicker;
 import com.ody.photopicker.loader.ImageLoader;
+import com.ody.share.ShareHelper;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView mJumpTxt;
@@ -34,6 +36,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initData() {
         super.initData();
+        ShareHelper.init(this, "1dcb3e19d1c45");
         MainHttpClient.get()
                 .compose(RxSchedulers.<AdBean>compose())
                 .compose(this.<AdBean>bindToLifecycle())
@@ -53,6 +56,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.initListener();
         mJumpTxt.setOnClickListener(this);
         findViewFromId(R.id.select).setOnClickListener(this);
+        findViewFromId(R.id.share).setOnClickListener(this);
     }
 
     @Override
@@ -90,6 +94,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             }
                         })
                         .start(MainActivity.this);
+                break;
+            case R.id.share:
+                ShareHelper.builder(ShareHelper.QQ_NAME)
+                        .setTitle("测试分享的标题")
+                        .setTitleUrl("http://sharesdk.cn")
+                        .setText("测试分享的文本")
+                        .setImageUrl("http://www.someserver.com/测试图片网络地址.jpg")
+                        .setSite("发布分享的网站名称")
+                        .setSiteUrl("发布分享网站的地址")
+                        .setShareListener(new ShareHelper.ShareListener() {
+                            @Override
+                            public void onError() {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Toast.makeText(mContext, "success", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                Toast.makeText(mContext, "cancel", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .share();
                 break;
         }
 

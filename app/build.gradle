@@ -5,11 +5,17 @@ android {
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.ody.ody"
+        applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: rootProject.ext.android.applicationId,
+                JPUSH_APPKEY : rootProject.ext.push.JPUSH_APPKEY,
+                JPUSH_CHANNEL: rootProject.ext.push.JPUSH_CHANNEL,
+        ]
     }
 
     buildTypes {
@@ -28,21 +34,22 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     //路由
-    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
-    compile project(':library:PhotoPicker')
-    if (rootProject.ext.android.isModule) {
-        compile project(':library:baselibrary')
-    }
-    if (!rootProject.ext.android.isModule) {
+    annotationProcessor project(':library:compiler')
+    compile project(':library:pickerphoto')
+    compile project(':library:baselibrary')
+    compile project(':library:push')
+    compile project(':library:share')
+
+    if (!rootProject.ext.android.guideIsApp) {
         compile project(':guide')
     }
-    if (!rootProject.ext.android.isModule) {
+    if (!rootProject.ext.android.loginIsApp) {
         compile project(':login')
     }
-    if (!rootProject.ext.android.isModule) {
+    if (!rootProject.ext.android.tradeIsApp) {
         compile project(':trade')
     }
-    if (!rootProject.ext.android.isModule) {
+    if (!rootProject.ext.android.userCenterIsApp) {
         compile project(':usercenter')
     }
 }

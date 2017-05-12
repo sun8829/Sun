@@ -12,6 +12,13 @@ android {
 
         buildConfigField("boolean", "IS_DEBUG", rootProject.ext.android.isDebug)
         buildConfigField("String", "SCHEME", rootProject.ext.android.scheme)
+
+        //推送配置
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: rootProject.ext.android.applicationId,
+                JPUSH_APPKEY : rootProject.ext.push.JPUSH_APPKEY,
+                JPUSH_CHANNEL: rootProject.ext.push.JPUSH_CHANNEL,
+        ]
     }
 
     buildTypes {
@@ -43,7 +50,11 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     //路由
-    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+    compile project(':library:activityrouter')
+//    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+
+    //推送
+    compile project(':library:push')
 
     //图片加载
     compile 'com.github.bumptech.glide:glide:3.7.0'

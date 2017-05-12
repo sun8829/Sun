@@ -6,9 +6,35 @@ ext {
             targetSdkVersion : 25,
             versionCode      : 1,
             versionName      : "1.0.0",
-            isModule         : false,
+            applicationId    : "com.ody",
+            isModule         : true,
+            loginIsApp       : false,
+            userCenterIsApp  : false,
+            tradeIsApp       : false,
+            guideIsApp       : false,
             isDebug          : "true",
             scheme           : "\"xpai\""
+    ]
+    push = [
+            JPUSH_APPKEY : "160ed05983e11a5e2e6a772d",
+            JPUSH_CHANNEL: "default"
+    ]
+    //分享配置
+    QQ = [
+            AppId : "100371282",
+            AppKey: "aed9b0303e3ed1e27bae87c33761161d"
+    ]
+    QZone = [
+            AppId : "100371282",
+            AppKey: "aed9b0303e3ed1e27bae87c33761161d"
+    ]
+    Wechat = [
+            AppId    : "wx4868b35061f87885",
+            AppSecret: "64020361b8ec4c99936c0e3999a9f249"
+    ]
+    WechatMoments = [
+            AppId    : "wx4868b35061f87885",
+            AppSecret: "64020361b8ec4c99936c0e3999a9f249"
     ]
     dependencies = [
             "supportVersion": "25.2.0"

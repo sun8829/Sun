@@ -1,4 +1,4 @@
-if (rootProject.ext.android.isModule) {
+if (rootProject.ext.android.loginIsApp) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -9,13 +9,20 @@ android {
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        if (rootProject.ext.android.isModule) {
-            applicationId "com.ody.login"
+        if (rootProject.ext.android.loginIsApp) {
+            applicationId rootProject.ext.android.applicationId + ".login"
         }
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+
+        //推送配置
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: rootProject.ext.android.applicationId,
+                JPUSH_APPKEY : rootProject.ext.push.JPUSH_APPKEY,
+                JPUSH_CHANNEL: rootProject.ext.push.JPUSH_CHANNEL,
+        ]
     }
 
     buildTypes {
@@ -27,7 +34,7 @@ android {
 
     sourceSets {
         main {
-            if (rootProject.ext.android.isModule) {
+            if (rootProject.ext.android.loginIsApp) {
                 manifest.srcFile 'src/main/debug/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -43,6 +50,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
+    annotationProcessor project(':library:compiler')
     compile project(':library:baselibrary')
 }

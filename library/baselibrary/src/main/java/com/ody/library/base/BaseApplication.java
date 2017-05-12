@@ -11,6 +11,7 @@ import com.github.mzule.activityrouter.router.SimpleRouterCallback;
 import com.ody.library.BuildConfig;
 import com.ody.library.util.util.LogUtils;
 import com.ody.library.util.util.Utils;
+import com.ody.push.PushHelper;
 
 /**
  * Created by Samuel on 2017/5/4.
@@ -23,6 +24,9 @@ public class BaseApplication extends Application implements RouterCallbackProvid
         super.onCreate();
         Utils.init(this);
 
+        //推送初始化
+        PushHelper.init(this, BuildConfig.IS_DEBUG);
+
         LogUtils.Builder logBuilder = new LogUtils.Builder();
         if (BuildConfig.IS_DEBUG) {
             logBuilder.setLogSwitch(true);
@@ -34,7 +38,7 @@ public class BaseApplication extends Application implements RouterCallbackProvid
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
-                    .penaltyDeath()
+//                    .penaltyDeath()
                     .build());
         } else {
             logBuilder.setLogSwitch(true);

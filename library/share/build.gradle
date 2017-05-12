@@ -1,0 +1,39 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        buildConfigField "java.util.HashMap<String, Object>", "QQ",
+                "new java.util.HashMap<String, Object>() {" +
+                        "{ put(\"AppId\", \"${rootProject.ext.QQ.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QQ.AppKey}\"); }}"
+
+        buildConfigField "java.util.HashMap<String, Object>", "QZone",
+                "new java.util.HashMap<String, Object>() {" +
+                        "{ put(\"AppId\", \"${rootProject.ext.QZone.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QZone.AppKey}\"); }}"
+
+        buildConfigField "java.util.HashMap<String, Object>", "Wechat",
+                "new java.util.HashMap<String, Object>() {" +
+                        "{ put(\"AppId\", \"${rootProject.ext.Wechat.AppId}\"); put(\"AppSecret\",  \"${rootProject.ext.Wechat.AppSecret}\"); }}"
+
+        buildConfigField "java.util.HashMap<String, Object>", "WechatMoments",
+                "new java.util.HashMap<String, Object>() {" +
+                        "{ put(\"AppId\", \"${rootProject.ext.WechatMoments.AppId}\"); put(\"AppSecret\",  \"${rootProject.ext.WechatMoments.AppSecret}\"); }}"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+}
