@@ -111,23 +111,21 @@ public class ShareHelper {
 
         public void share() {
             Platform.ShareParams sp = null;
-            Platform platform = null;
+            Platform platform;
             if (platformName == null || platformName.trim().length() == 0)
                 throw new RuntimeException("还未设置分享平台");
 
             if (platformName.equals(QQ_NAME)) {
                 sp = new QQ.ShareParams();
-                platform = ShareSDK.getPlatform(QZone.NAME);
+
             } else if (platformName.equals(QZONE_NAME)) {
                 sp = new QZone.ShareParams();
-                platform = ShareSDK.getPlatform(QZone.NAME);
             } else if (platformName.equals(WECHAT_NAME)) {
                 sp = new Wechat.ShareParams();
-                platform = ShareSDK.getPlatform(WECHAT_NAME);
             } else if (platformName.equals(WECHATMOMENTS_NAME)) {
                 sp = new WechatMoments.ShareParams();
-                platform = ShareSDK.getPlatform(WECHATMOMENTS_NAME);
             }
+            platform = ShareSDK.getPlatform(platformName);
             sp.setTitle(title);
             sp.setTitleUrl(titleUrl); // 标题的超链接
             sp.setText(text);

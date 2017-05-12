@@ -10,6 +10,11 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 
+        //推送配置
+        manifestPlaceholders = [
+                QQ_SCHEME: "tencent${rootProject.ext.QQ.AppId}"
+        ]
+
         buildConfigField "java.util.HashMap<String, Object>", "QQ",
                 "new java.util.HashMap<String, Object>() {" +
                         "{ put(\"AppId\", \"${rootProject.ext.QQ.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QQ.AppKey}\"); }}"
