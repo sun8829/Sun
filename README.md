@@ -1,5 +1,6 @@
 # Android开发框架搭建Android-Sun-Framework
 
+![](https://img.shields.io/badge/build-passing-green.svg)
 ## 一. 写在前面
 Android-Sun-Framework是一个Android组件化开发框架，可用于大型项目开发。
 > 欢迎Star or Follow我的[GitHub](https://github.com/samuelhuahui/Sun)
