@@ -827,11 +827,8 @@ ShareHelper.builder(ShareHelper.QQ_NAME)
                         .share();
 ``` 
 ## TOTO
-1. 引入dagger2
-2. 开启混淆
-3. 分享基础库
-4. 图片选择
-5. 下拉刷新
-6. 轮播
-7. 客服
-8. 推送
+
+1. hybrid支持（WebView 容器封装）
+2. 混淆
+3. 轮播
+4. 下拉刷新
