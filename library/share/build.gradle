@@ -15,26 +15,55 @@ android {
                 QQ_SCHEME: "tencent${rootProject.ext.QQ.AppId}"
         ]
 
+//        buildConfigField "java.util.HashMap<String, Object>", "QQ",
+//                "new java.util.HashMap<String, Object>() {" +
+//                        "{ put(\"AppId\", \"${rootProject.ext.QQ.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QQ.AppKey}\"); }}"
+//
+//        buildConfigField "java.util.HashMap<String, Object>", "QZone",
+//                "new java.util.HashMap<String, Object>() {" +
+//                        "{ put(\"AppId\", \"${rootProject.ext.QZone.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QZone.AppKey}\"); }}"
+//
+//        buildConfigField "java.util.HashMap<String, Object>", "Wechat",
+//                "new java.util.HashMap<String, Object>() {" +
+//                        "{ put(\"AppId\", \"${rootProject.ext.Wechat.AppId}\"); put(\"AppSecret\",  \"${rootProject.ext.Wechat.AppSecret}\"); }}"
+//
+//        buildConfigField "java.util.HashMap<String, Object>", "WechatMoments",
+//                "new java.util.HashMap<String, Object>() {" +
+//                        "{ put(\"AppId\", \"${rootProject.ext.WechatMoments.AppId}\"); put(\"AppSecret\",  \"${rootProject.ext.WechatMoments.AppSecret}\"); }}"
+
+        def QQ = "";
+        rootProject.ext.QQ.each {
+            item -> QQ += "put(\"${item.key}\", \"${item.value}\");";
+        }
         buildConfigField "java.util.HashMap<String, Object>", "QQ",
-                "new java.util.HashMap<String, Object>() {" +
-                        "{ put(\"AppId\", \"${rootProject.ext.QQ.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QQ.AppKey}\"); }}"
+                "new java.util.HashMap<String, Object>() {{${QQ}}}"
 
+        def QZone = "";
+        rootProject.ext.QZone.each {
+            item -> QZone += "put(\"${item.key}\", \"${item.value}\");";
+        }
         buildConfigField "java.util.HashMap<String, Object>", "QZone",
-                "new java.util.HashMap<String, Object>() {" +
-                        "{ put(\"AppId\", \"${rootProject.ext.QZone.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QZone.AppKey}\"); }}"
+                "new java.util.HashMap<String, Object>() {{${QZone}}}"
 
+        def Wechat = "";
+        rootProject.ext.Wechat.each {
+            item -> Wechat += "put(\"${item.key}\", \"${item.value}\");";
+        }
         buildConfigField "java.util.HashMap<String, Object>", "Wechat",
-                "new java.util.HashMap<String, Object>() {" +
-                        "{ put(\"AppId\", \"${rootProject.ext.Wechat.AppId}\"); put(\"AppSecret\",  \"${rootProject.ext.Wechat.AppSecret}\"); }}"
+                "new java.util.HashMap<String, Object>() {{${Wechat}}}"
 
+        def WechatMoments = "";
+        rootProject.ext.WechatMoments.each {
+            item -> WechatMoments += "put(\"${item.key}\", \"${item.value}\");";
+        }
         buildConfigField "java.util.HashMap<String, Object>", "WechatMoments",
-                "new java.util.HashMap<String, Object>() {" +
-                        "{ put(\"AppId\", \"${rootProject.ext.WechatMoments.AppId}\"); put(\"AppSecret\",  \"${rootProject.ext.WechatMoments.AppSecret}\"); }}"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                "new java.util.HashMap<String, Object>() {{${WechatMoments}}}"
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
         }
     }
 }

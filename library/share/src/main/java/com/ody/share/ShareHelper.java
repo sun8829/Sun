@@ -21,7 +21,6 @@ public class ShareHelper {
     public final static String QZONE_NAME = QZone.NAME;
     public final static String WECHAT_NAME = Wechat.NAME;
     public final static String WECHATMOMENTS_NAME = WechatMoments.NAME;
-
     public static void init(Context context, String APP_KEY) {
         ShareSDK.initSDK(context, APP_KEY);
         ShareSDK.setPlatformDevInfo(QQ.NAME, BuildConfig.QQ);
