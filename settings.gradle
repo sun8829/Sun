@@ -1,1 +1,1 @@
-include ':app', ':library:baselibrary', ':usercenter', ':trade', ':guide', ':login', ':library:pickerphoto', ':library:compiler', ':library:annotation', ':library:activityrouter', ':library:stub', ':library:push', ':library:share'
+include ':app', ':library:baselibrary', ':usercenter', ':trade', ':guide', ':login', ':library:pickerphoto', ':library:compiler', ':library:annotation', ':library:activityrouter', ':library:stub', ':library:push', ':library:share', ':library:bridge'
