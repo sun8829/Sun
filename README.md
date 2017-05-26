@@ -830,6 +830,7 @@ ShareHelper.builder(ShareHelper.QQ_NAME)
 ``` 
 ## Hybrid框架介绍
 ![](http://upload-images.jianshu.io/upload_images/4751442-13baf1fbfafd82a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 该框架支持两种方式接入：SuperWebView, SuperWebFragment
 接触过APICloud的童鞋都知道，他们只支持以Activity的形式，所以使用受限比较明显。我们这次的封装规避了他们的问题，是接入更加灵活，同时又参照了他们，做了一些相似的实现（当前只是把基础的且分钟重要的内容实现了，** 后面会参照APICloud的官方文档陆续增加，敬请期待**）
 
