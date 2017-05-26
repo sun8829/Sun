@@ -2,7 +2,7 @@
 //since comments will cause error when use in webview.loadurl,
 //comments will be remove by java use regexp
 (function() {
-    if (window.WebViewJavascriptBridge) {
+    if (window.mobileAPI) {
         return;
     }
 
@@ -25,10 +25,10 @@
 
     //set default messageHandler
     function init(messageHandler) {
-        if (WebViewJavascriptBridge._messageHandler) {
-            throw new Error('WebViewJavascriptBridge.init called twice');
+        if (mobileAPI._messageHandler) {
+            throw new Error('mobileAPI.init called twice');
         }
-        WebViewJavascriptBridge._messageHandler = messageHandler;
+        mobileAPI._messageHandler = messageHandler;
         var receivedMessages = receiveMessageQueue;
         receiveMessageQueue = null;
         for (var i = 0; i < receivedMessages.length; i++) {
@@ -46,7 +46,7 @@
         messageHandlers[handlerName] = handler;
     }
 
-    function callHandler(handlerName, data, responseCallback) {
+    function accessNative(handlerName, data, responseCallback) {
         _doSend({
             handlerName: handlerName,
             data: data
@@ -67,7 +67,6 @@
 
     // 提供给native调用,该函数作用:获取sendMessageQueue返回给native,由于android不能直接获取返回的内容,所以使用url shouldOverrideUrlLoading 的方式返回内容
     function _fetchQueue() {
-        alert("_fetchQueue");
         var messageQueueString = JSON.stringify(sendMessageQueue);
         sendMessageQueue = [];
         //android can't read directly the return data, so we can reload iframe src to communicate with java
@@ -99,7 +98,7 @@
                     };
                 }
 
-                var handler = WebViewJavascriptBridge._messageHandler;
+                var handler = mobileAPI._messageHandler;
                 if (message.handlerName) {
                     handler = messageHandlers[message.handlerName];
                 }
@@ -108,7 +107,7 @@
                     handler(message.data, responseCallback);
                 } catch (exception) {
                     if (typeof console != 'undefined') {
-                        console.log("WebViewJavascriptBridge: WARNING: javascript handler threw.", message, exception);
+                        console.log("mobileAPI: WARNING: javascript handler threw.", message, exception);
                     }
                 }
             }
@@ -125,20 +124,19 @@
         }
     }
 
-    var WebViewJavascriptBridge = window.WebViewJavascriptBridge = {
+    var mobileAPI = window.mobileAPI = {
         init: init,
         send: send,
         registerHandler: registerHandler,
-        callHandler: callHandler,
+        accessNative: accessNative,
         _fetchQueue: _fetchQueue,
         _handleMessageFromNative: _handleMessageFromNative
     };
 
     var doc = document;
-//    document.writeln('1231231231231312312');
     _createQueueReadyIframe(doc);
     var readyEvent = doc.createEvent('Events');
-    readyEvent.initEvent('WebViewJavascriptBridgeReady');
-    readyEvent.bridge = WebViewJavascriptBridge;
+    readyEvent.initEvent('onReady');
+    readyEvent.bridge = mobileAPI;
     doc.dispatchEvent(readyEvent);
 })();

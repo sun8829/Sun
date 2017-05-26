@@ -19,5 +19,9 @@ android {
     }
 }
 
+
 dependencies {
+    compile 'com.android.support:appcompat-v7:' + rootProject.ext.dependencies.supportVersion
+//    compile 'com.android.support:design:' + rootProject.ext.dependencies.supportVersion
+    compile 'com.android.support:support-v4:25.3.1'
 }

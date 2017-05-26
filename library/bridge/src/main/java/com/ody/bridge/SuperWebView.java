@@ -19,10 +19,10 @@ public class SuperWebView extends WebView implements WebViewJavascriptBridge {
 
     private final String TAG = "BridgeWebView";
 
-    public static final String toLoadJs = "WebViewJavascriptBridge.js";
+    public static final String toLoadJs = "mobileAPI.js";
     Map<String, CallBackFunction> responseCallbacks = new HashMap<String, CallBackFunction>();
-    Map<String, BridgeHandler> messageHandlers = new HashMap<String, BridgeHandler>();
-    BridgeHandler defaultHandler = new DefaultHandler();
+    Map<String, Html5EventListener> messageHandlers = new HashMap<String, Html5EventListener>();
+    Html5EventListener defaultHandler = new DefaultHtml5EventListener();
 
     private List<Message> startupMessage = new ArrayList<Message>();
 
@@ -55,7 +55,7 @@ public class SuperWebView extends WebView implements WebViewJavascriptBridge {
      * @param handler default handler,handle messages send by js without assigned handler name,
      *                if js message has handler name, it will be handled by named handlers registered by native
      */
-    public void setDefaultHandler(BridgeHandler handler) {
+    public void setDefaultHtml5EventListener(Html5EventListener handler) {
         this.defaultHandler = handler;
     }
 
@@ -85,12 +85,12 @@ public class SuperWebView extends WebView implements WebViewJavascriptBridge {
     }
 
     @Override
-    public void send(String data) {
-        send(data, null);
+    public void sendEventToHtml5(String data) {
+        sendEventToHtml5(data, null);
     }
 
     @Override
-    public void send(String data, CallBackFunction responseCallback) {
+    public void sendEventToHtml5(String data, CallBackFunction responseCallback) {
         doSend(null, data, responseCallback);
     }
 
@@ -177,7 +177,7 @@ public class SuperWebView extends WebView implements WebViewJavascriptBridge {
                                     }
                                 };
                             }
-                            BridgeHandler handler;
+                            Html5EventListener handler;
                             if (!TextUtils.isEmpty(m.getHandlerName())) {
                                 handler = messageHandlers.get(m.getHandlerName());
                             } else {
@@ -204,7 +204,7 @@ public class SuperWebView extends WebView implements WebViewJavascriptBridge {
      * @param handlerName
      * @param handler
      */
-    public void registerHandler(String handlerName, BridgeHandler handler) {
+    public void addHtml5EventListener(String handlerName, Html5EventListener handler) {
         if (handler != null) {
             messageHandlers.put(handlerName, handler);
         }
@@ -217,7 +217,7 @@ public class SuperWebView extends WebView implements WebViewJavascriptBridge {
      * @param data
      * @param callBack
      */
-    public void callHandler(String handlerName, String data, CallBackFunction callBack) {
+    public void sendEventToHtml5(String handlerName, String data, CallBackFunction callBack) {
         doSend(handlerName, data, callBack);
     }
 }
