@@ -37,6 +37,6 @@ ext {
             AppSecret: "64020361b8ec4c99936c0e3999a9f249"
     ]
     dependencies = [
-            "supportVersion": "25.2.0"
+            "supportVersion": "25.3.1"
     ]
 }
