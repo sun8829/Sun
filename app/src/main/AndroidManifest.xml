@@ -18,6 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".test.TestActivity" />
+
+        <activity android:name=".main.WebActivity" />
     </application>
 
 </manifest>

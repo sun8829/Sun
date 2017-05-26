@@ -1,5 +1,6 @@
 package com.ody.ody.main;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,7 +31,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initView() {
         mJumpTxt = findViewFromId(R.id.jump1);
-
     }
 
     @Override
@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mJumpTxt.setOnClickListener(this);
         findViewFromId(R.id.select).setOnClickListener(this);
         findViewFromId(R.id.share).setOnClickListener(this);
+        findViewFromId(R.id.hybrid).setOnClickListener(this);
     }
 
     @Override
@@ -121,7 +122,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         })
                         .share();
                 break;
+            case R.id.hybrid:
+                startActivity(new Intent(MainActivity.this, WebActivity.class));
+                break;
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

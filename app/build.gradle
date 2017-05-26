@@ -39,6 +39,7 @@ dependencies {
     compile project(':library:baselibrary')
     compile project(':library:push')
     compile project(':library:share')
+    compile project(':library:bridge')
 
     if (!rootProject.ext.android.guideIsApp) {
         compile project(':guide')
