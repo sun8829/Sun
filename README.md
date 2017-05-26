@@ -1,4 +1,4 @@
-# Android开发框架搭建Android-Sun-Framework
+# Android模块化开发框架Android-Sun-Framework
 
 [![](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/samuelhuahui/Sun)
 [![](https://img.shields.io/scrutinizer/g/filp/whoops.svg)](https://github.com/samuelhuahui/Sun)
@@ -828,9 +828,112 @@ ShareHelper.builder(ShareHelper.QQ_NAME)
                         })
                         .share();
 ``` 
-## TOTO
+## Hybrid框架介绍
+![](http://upload-images.jianshu.io/upload_images/4751442-13baf1fbfafd82a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+该框架支持两种方式接入：SuperWebView, SuperWebFragment
+接触过APICloud的童鞋都知道，他们只支持以Activity的形式，所以使用受限比较明显。我们这次的封装规避了他们的问题，是接入更加灵活，同时又参照了他们，做了一些相似的实现（当前只是把基础的且分钟重要的内容实现了，** 后面会参照APICloud的官方文档陆续增加，敬请期待**）
 
-1. hybrid支持（WebView 容器封装）
-2. 混淆
-3. 轮播
-4. 下拉刷新
+## 如何使用
+我这里就不再说明底层是如何实现的，想了解这块的可以查看源码，或者关注我的微信公众号（搜索**SamuelAndroid**添加关注），给我留言！
+1. 导入
+当前还没有发布到jcenter，需要手工导入，这里不再赘述，可以参照[这篇文章](http://blog.csdn.net/Bingtang_blog/article/details/52557056)
+
+2. native封装的接口:
+详细看下面的注释
+```java
+    // 发送数据
+    void sendDataToHtml5(String data);
+    //发送数据 
+    void sendDataToHtml5(String data, CallBackFunction responseCallback);
+
+    //发送事件
+    void sendEventToHtml5(String handlerName);
+   //发送事件
+    void sendEventToHtml5(String handlerName, CallBackFunction callBack);
+    //发送事件
+    void sendEventToHtml5(String handlerName, String data, CallBackFunction callBack);
+
+    // 添加默认事件处理，即数据，对应于js的mobileAPI.send
+   setDefaultHtml5EventListener(new Html5EventListener() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                if (function != null) {
+                    function.onCallBack("孙华辉");
+                }
+            }
+        });
+
+  //监听H5发送的事件，对应H5的accessNative
+   addHtml5EventListener("eventname", new Html5EventListener() {
+
+	@Override
+	public void handler(String data, CallBackFunction function) {
+				
+                function.onCallBack("submitFromWeb exe, response data 中文 from Java");
+	}
+});
+```
+3.  H5的封装--注入完成
+本框架会在HTML加载完成后动态注入一段js代码，框架里的一些方法只有等到注入完成后才能使用，为了让前段知道调用时机，我们把这个状态发送给了前端，有两种方式可以拿到注入完成的回调：
+ a. 通过事件：
+```javascript
+document.addEventListener(
+       'onReady'
+       , function() {
+              //TODO 
+       },
+       false
+);
+```
+
+ b. 通过回调:这里我多说两句，由于本人前端知识薄弱，这种方式的实现着实花了我一段时间，主要也是为了和APICloud具有同样的使用方式，所以这篇文章相隔上一篇时间较久。
+```javascript
+appReady = function(){
+      // TODO
+}
+```
+
+4. H5的封装--生命周期（resume、pause）
+做安卓开发的童鞋对于onResume，onPause这两个生命周期再熟悉不过，开发过程中我们会在onResume回调中做一些处理，所以本框架也将这两个生命周期传给了H5，具体使用方法如下：
+```javascript
+appReady = function(){
+      ...
+      resume = function(){
+              // TODO 可以这里加载数据
+      }
+
+      pause = function(){
+              // TODO  
+      }
+}
+```
+5. H5的封装--事件
+
+```javascript
+// 接收native发送过来的数据,对应native的sendDataToHtml5的处理
+mobileAPI.init(function(message, responseCallback) {
+        responseCallback(data);
+});
+//监听native发送的事件
+mobileAPI.addEventListener("functionInJs", function(data, responseCallback) {
+         responseCallback(responseData);
+ });
+
+//发送数据到native
+window.mobileAPI.send(
+         data
+         , function(responseData) {
+         document.getElementById("show").innerHTML = "repsonseData from java, data = " + responseData
+      }
+);
+
+// 发送事件到native
+window.mobileAPI.accessNative(
+          'submitFromWeb'
+          , {'param': '中文测试'}
+          , function(responseData) {
+          document.getElementById("show").innerHTML = "send get responseData from java, data = " + responseData
+     }
+);
+
+```
