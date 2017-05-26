@@ -3,7 +3,13 @@ package com.ody.bridge;
 
 public interface WebViewJavascriptBridge {
 
-    public void sendEventToHtml5(String data);
+    void sendDataToHtml5(String data);
 
-    public void sendEventToHtml5(String data, CallBackFunction responseCallback);
+    void sendDataToHtml5(String data, CallBackFunction responseCallback);
+
+    void sendEventToHtml5(String handlerName);
+
+    void sendEventToHtml5(String handlerName, CallBackFunction callBack);
+
+    void sendEventToHtml5(String handlerName, String data, CallBackFunction callBack);
 }

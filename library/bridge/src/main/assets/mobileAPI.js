@@ -5,6 +5,9 @@
     if (window.mobileAPI) {
         return;
     }
+    window.appReady;
+    window.resume;
+    window.pause;
 
     var messagingIframe;
     var sendMessageQueue = [];
@@ -42,7 +45,7 @@
         }, responseCallback);
     }
 
-    function registerHandler(handlerName, handler) {
+    function addEventListener(handlerName, handler) {
         messageHandlers[handlerName] = handler;
     }
 
@@ -127,7 +130,7 @@
     var mobileAPI = window.mobileAPI = {
         init: init,
         send: send,
-        registerHandler: registerHandler,
+        addEventListener: addEventListener,
         accessNative: accessNative,
         _fetchQueue: _fetchQueue,
         _handleMessageFromNative: _handleMessageFromNative
@@ -139,4 +142,23 @@
     readyEvent.initEvent('onReady');
     readyEvent.bridge = mobileAPI;
     doc.dispatchEvent(readyEvent);
+
+    function completed(callback){
+        callback();
+    };
+    if(appReady){
+        completed(appReady);
+    }
+    //resume
+    addEventListener("resume", function(data, responseCallback){
+        if(resume){
+            resume();
+        }
+    });
+    //pause
+    addEventListener("pause", function(data, responseCallback){
+        if(pause){
+            pause();
+        }
+    });
 })();

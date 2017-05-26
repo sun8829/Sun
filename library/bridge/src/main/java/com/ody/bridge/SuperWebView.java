@@ -85,13 +85,46 @@ public class SuperWebView extends WebView implements WebViewJavascriptBridge {
     }
 
     @Override
-    public void sendEventToHtml5(String data) {
-        sendEventToHtml5(data, null);
+    public void sendDataToHtml5(String data) {
+        sendDataToHtml5(data, null);
     }
 
     @Override
-    public void sendEventToHtml5(String data, CallBackFunction responseCallback) {
+    public void sendDataToHtml5(String data, CallBackFunction responseCallback) {
         doSend(null, data, responseCallback);
+    }
+
+    /**
+     * call javascript registered handler
+     *
+     * @param handlerName
+     * @param data
+     * @param callBack
+     */
+    @Override
+    public void sendEventToHtml5(String handlerName, String data, CallBackFunction callBack) {
+        doSend(handlerName, data, callBack);
+    }
+
+    /**
+     * call javascript registered handler
+     *
+     * @param handlerName
+     */
+    @Override
+    public void sendEventToHtml5(String handlerName) {
+        doSend(handlerName, null, null);
+    }
+
+    /**
+     * call javascript registered handler
+     *
+     * @param handlerName
+     * @param callBack
+     */
+    @Override
+    public void sendEventToHtml5(String handlerName, CallBackFunction callBack) {
+        doSend(handlerName, null, callBack);
     }
 
     private void doSend(String handlerName, String data, CallBackFunction responseCallback) {
@@ -208,16 +241,5 @@ public class SuperWebView extends WebView implements WebViewJavascriptBridge {
         if (handler != null) {
             messageHandlers.put(handlerName, handler);
         }
-    }
-
-    /**
-     * call javascript registered handler
-     *
-     * @param handlerName
-     * @param data
-     * @param callBack
-     */
-    public void sendEventToHtml5(String handlerName, String data, CallBackFunction callBack) {
-        doSend(handlerName, data, callBack);
     }
 }
