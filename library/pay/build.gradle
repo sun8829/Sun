@@ -9,8 +9,10 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
-    }
 
+        buildConfigField("String", "WX_APP_ID", "\"${rootProject.ext.wxpay.APP_ID}\"")
+        buildConfigField("String", "applicationId", "\"${rootProject.ext.android.applicationId}\"")
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -19,8 +21,9 @@ android {
     }
 }
 
-
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:' + rootProject.ext.dependencies.supportVersion
-    compile 'com.android.support:support-v4:' + rootProject.ext.dependencies.supportVersion
+    compile project(':library:annotation')
+    annotationProcessor project(':library:compiler')
 }

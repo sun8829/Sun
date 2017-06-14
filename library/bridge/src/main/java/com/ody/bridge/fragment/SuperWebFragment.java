@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.ConsoleMessage;
+import android.webkit.JsPromptResult;
 import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 
 import com.ody.bridge.CallBackFunction;
 import com.ody.bridge.Html5EventListener;
@@ -68,6 +70,12 @@ public class SuperWebFragment extends Fragment {
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
                 return super.onConsoleMessage(consoleMessage);
             }
+
+            @Override
+            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+                result.confirm();
+                return true;
+            }
         });
         mSuperWv.setDefaultHtml5EventListener(new Html5EventListener() {
             @Override
@@ -97,4 +105,14 @@ public class SuperWebFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
+    public boolean goBack() {
+        mSuperWv.goBack();
+        if (mSuperWv.canGoBack()) {
+
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -6,7 +6,7 @@ ext {
             targetSdkVersion : 25,
             versionCode      : 1,
             versionName      : "1.0.0",
-            applicationId    : "com.ody",
+            applicationId    : "com.umaman.laiyifen",
             isModule         : true,
             loginIsApp       : false,
             userCenterIsApp  : false,
@@ -14,6 +14,11 @@ ext {
             guideIsApp       : false,
             isDebug          : "true",
             scheme           : "\"xpai\""
+    ]
+
+    //支付
+    wxpay = [
+            APP_ID: "wxfac2b15cf7763717"
     ]
     push = [
             JPUSH_APPKEY : "160ed05983e11a5e2e6a772d",

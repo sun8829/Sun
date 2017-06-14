@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="com.ody.pay">
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+
+        <receiver android:name=".wxpay.WechatPayReq$PayBroadcastReceiver">
+            <intent-filter>
+
+                <action android:name="com.ody.pay.wxpay.WechatPayReq.PayBroadcastReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.umaman.laiyifen.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoDisplay" />
+    </application>
+
+</manifest>

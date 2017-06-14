@@ -1,5 +1,14 @@
 package com.github.mzule.activityrouter.compiler;
 
+import com.github.mzule.activityrouter.annotation.Module;
+import com.github.mzule.activityrouter.annotation.Modules;
+import com.github.mzule.activityrouter.annotation.Router;
+import com.google.auto.service.AutoService;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeSpec;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,15 +25,6 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-
-import com.github.mzule.activityrouter.annotation.Module;
-import com.github.mzule.activityrouter.annotation.Modules;
-import com.github.mzule.activityrouter.annotation.Router;
-import com.google.auto.service.AutoService;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
 
 @AutoService(Processor.class)
 public class RouterProcessor extends AbstractProcessor {
@@ -207,7 +207,7 @@ public class RouterProcessor extends AbstractProcessor {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
 
     private void addStatement(MethodSpec.Builder mapMethod, Class typeClz, String[] args) {

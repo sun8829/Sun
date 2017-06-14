@@ -1,11 +1,12 @@
 package com.ody.library.subscribe;
 
+import com.ody.library.commonbean.BaseBean;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -18,13 +19,25 @@ public class RxSchedulers {
             @Override
             public ObservableSource<T> apply(Observable<T> observable) {
                 return observable
-                        .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(new Consumer<Disposable>() {
+                        .filter(new Predicate<T>() {
                             @Override
-                            public void accept(Disposable disposable) throws Exception {
-
+                            public boolean test(T t) throws Exception {
+                                if (t instanceof BaseBean) {
+                                    BaseBean bean = (BaseBean) t;
+                                    if (bean.getCode().equals("0")) {
+                                        return true;
+                                    }
+                                }
+                                return false;
                             }
                         })
+                        .subscribeOn(Schedulers.io())
+//                        .doOnSubscribe(new Consumer<Disposable>() {
+//                            @Override
+//                            public void accept(Disposable disposable) throws Exception {
+//
+//                            }
+//                        })
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };

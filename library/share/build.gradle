@@ -15,22 +15,6 @@ android {
                 QQ_SCHEME: "tencent${rootProject.ext.QQ.AppId}"
         ]
 
-//        buildConfigField "java.util.HashMap<String, Object>", "QQ",
-//                "new java.util.HashMap<String, Object>() {" +
-//                        "{ put(\"AppId\", \"${rootProject.ext.QQ.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QQ.AppKey}\"); }}"
-//
-//        buildConfigField "java.util.HashMap<String, Object>", "QZone",
-//                "new java.util.HashMap<String, Object>() {" +
-//                        "{ put(\"AppId\", \"${rootProject.ext.QZone.AppId}\"); put(\"AppKey\",  \"${rootProject.ext.QZone.AppKey}\"); }}"
-//
-//        buildConfigField "java.util.HashMap<String, Object>", "Wechat",
-//                "new java.util.HashMap<String, Object>() {" +
-//                        "{ put(\"AppId\", \"${rootProject.ext.Wechat.AppId}\"); put(\"AppSecret\",  \"${rootProject.ext.Wechat.AppSecret}\"); }}"
-//
-//        buildConfigField "java.util.HashMap<String, Object>", "WechatMoments",
-//                "new java.util.HashMap<String, Object>() {" +
-//                        "{ put(\"AppId\", \"${rootProject.ext.WechatMoments.AppId}\"); put(\"AppSecret\",  \"${rootProject.ext.WechatMoments.AppSecret}\"); }}"
-
         def QQ = "";
         rootProject.ext.QQ.each {
             item -> QQ += "put(\"${item.key}\", \"${item.value}\");";
