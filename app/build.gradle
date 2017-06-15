@@ -1,6 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'laiyifen'
+            keyPassword 'laiyifen'
+            storeFile file('/keystore/laiyifen.key')
+            storePassword 'laiyifen'
+        }
+    }
+
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
@@ -19,6 +28,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -40,6 +53,7 @@ dependencies {
     compile project(':library:push')
     compile project(':library:share')
     compile project(':library:bridge')
+    compile project(':library:pay')
 
     if (!rootProject.ext.android.guideIsApp) {
         compile project(':guide')

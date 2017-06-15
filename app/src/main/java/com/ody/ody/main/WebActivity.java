@@ -9,7 +9,7 @@ import com.ody.ody.R;
  */
 
 public class WebActivity extends BaseActivity {
-
+    SuperWebFragment mFragment;
     @Override
     protected int bindLayout() {
         return R.layout.activity_web;
@@ -18,6 +18,14 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, SuperWebFragment.newInstance("file:///android_asset/demo.html")).commit();
+        mFragment = SuperWebFragment.newInstance("file:///android_asset/demo.html");
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragment).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mFragment.goBack()) {
+            super.onBackPressed();
+        }
     }
 }

@@ -16,6 +16,8 @@ import com.ody.library.util.util.GlideUtil;
 import com.ody.library.util.util.JumpUtils;
 import com.ody.ody.R;
 import com.ody.ody.test.MainHttpClient;
+import com.ody.pay.wxpay.WechatPayAPI;
+import com.ody.pay.wxpay.WechatPayReq;
 import com.ody.photopicker.PhotoPicker;
 import com.ody.photopicker.loader.ImageLoader;
 import com.ody.share.ShareHelper;
@@ -58,6 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewFromId(R.id.select).setOnClickListener(this);
         findViewFromId(R.id.share).setOnClickListener(this);
         findViewFromId(R.id.hybrid).setOnClickListener(this);
+        findViewFromId(R.id.pay).setOnClickListener(this);
     }
 
     @Override
@@ -124,6 +127,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.hybrid:
                 startActivity(new Intent(MainActivity.this, WebActivity.class));
+                break;
+            case R.id.pay:
+                String appid = "wxfac2b15cf7763717";
+                String partnerid = "1234703702";
+                String prepayid = "wx20170614175108b37aeecbd60275191933";
+                String noncestr = "1b32a022c52c0c6255c2a32e580be34f";
+                String timestamp = "1497433868";
+                String sign = "C998BBF6F4EAB865CD3D8DF44BA0711D";
+                WechatPayReq wechatPayReq = new WechatPayReq.Builder()
+                        .with(this) //activity实例
+                        .setAppId(appid) //微信支付AppID
+                        .setPartnerId(partnerid)//微信支付商户号
+                        .setPrepayId(prepayid)//预支付码
+//								.setPackageValue(wechatPayReq.get)//"Sign=WXPay"
+                        .setNonceStr(noncestr)
+                        .setTimeStamp(timestamp)//时间戳
+                        .setSign(sign)//签名
+                        .setOnPayListener(new WechatPayReq.PayListener() {
+
+                            @Override
+                            public void onPaySuccess() {
+
+                            }
+
+                            @Override
+                            public void onPayFailure(int errorCode, String errStr) {
+                                Toast.makeText(MainActivity.this, "支付结果： errorCode" + errStr, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .create();
+                boolean result = WechatPayAPI.getInstance().sendPayReq(wechatPayReq);
+                if (result) {
+
+                }
                 break;
         }
 

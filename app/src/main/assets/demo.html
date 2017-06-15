@@ -35,8 +35,16 @@
 <p>
     <input type="file" value="打开文件"/>
 </p>
+
+<p>
+    <input type="button" onclick="btnClick();" value="点击"/>
+</p>
 </body>
 <script>
+        function btnClick(){
+            location.replace("http://m.laiyifen.com/index.html");
+        }
+
         function testDiv() {
             document.getElementById("show").innerHTML = document.getElementsByTagName("html")[0].innerHTML;
         }
