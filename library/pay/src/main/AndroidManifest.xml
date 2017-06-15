@@ -15,7 +15,7 @@
         </receiver>
 
         <activity
-            android:name="com.umaman.laiyifen.wxapi.WXPayEntryActivity"
+            android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoDisplay" />
