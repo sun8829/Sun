@@ -10,6 +10,7 @@ import com.ody.ody.R;
 
 public class WebActivity extends BaseActivity {
     SuperWebFragment mFragment;
+
     @Override
     protected int bindLayout() {
         return R.layout.activity_web;
@@ -24,7 +25,7 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mFragment.goBack()) {
+        if (!mFragment.goBack()) {
             super.onBackPressed();
         }
     }

@@ -107,9 +107,8 @@ public class SuperWebFragment extends Fragment {
     }
 
     public boolean goBack() {
-        mSuperWv.goBack();
         if (mSuperWv.canGoBack()) {
-
+            mSuperWv.goBack();
             return true;
         }
         return false;

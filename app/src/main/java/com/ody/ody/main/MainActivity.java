@@ -16,7 +16,6 @@ import com.ody.library.util.util.GlideUtil;
 import com.ody.library.util.util.JumpUtils;
 import com.ody.ody.R;
 import com.ody.ody.test.MainHttpClient;
-import com.ody.pay.wxpay.WechatPayAPI;
 import com.ody.pay.wxpay.WechatPayReq;
 import com.ody.photopicker.PhotoPicker;
 import com.ody.photopicker.loader.ImageLoader;
@@ -131,16 +130,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.pay:
                 String appid = "wxfac2b15cf7763717";
                 String partnerid = "1234703702";
-                String prepayid = "wx20170614175108b37aeecbd60275191933";
-                String noncestr = "1b32a022c52c0c6255c2a32e580be34f";
-                String timestamp = "1497433868";
-                String sign = "C998BBF6F4EAB865CD3D8DF44BA0711D";
+                String prepayid = "wx2017061510143243739ca86d0077962349";
+                String noncestr = "c6bff625bdb0393992c9d4db0c6bbe45";
+                String timestamp = "1497492872";
+                String sign = "A51E1A1F2D7CA62619E4E1A9A2C51D75";
                 WechatPayReq wechatPayReq = new WechatPayReq.Builder()
                         .with(this) //activity实例
                         .setAppId(appid) //微信支付AppID
                         .setPartnerId(partnerid)//微信支付商户号
                         .setPrepayId(prepayid)//预支付码
-//								.setPackageValue(wechatPayReq.get)//"Sign=WXPay"
                         .setNonceStr(noncestr)
                         .setTimeStamp(timestamp)//时间戳
                         .setSign(sign)//签名
@@ -153,14 +151,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                             @Override
                             public void onPayFailure(int errorCode, String errStr) {
-                                Toast.makeText(MainActivity.this, "支付结果： errorCode" + errStr, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "支付结果： errorCode ：" + errorCode + " msg : " + errStr, Toast.LENGTH_SHORT).show();
                             }
                         })
                         .create();
-                boolean result = WechatPayAPI.getInstance().sendPayReq(wechatPayReq);
-                if (result) {
-
-                }
+                wechatPayReq.send();
                 break;
         }
 

@@ -2,7 +2,7 @@ ext {
     android = [
             compileSdkVersion: 25,
             buildToolsVersion: "25.0.2",
-            minSdkVersion    : 19,
+            minSdkVersion    : 15,
             targetSdkVersion : 25,
             versionCode      : 1,
             versionName      : "1.0.0",
@@ -20,6 +20,7 @@ ext {
     wxpay = [
             APP_ID: "wxfac2b15cf7763717"
     ]
+    //推送
     push = [
             JPUSH_APPKEY : "160ed05983e11a5e2e6a772d",
             JPUSH_CHANNEL: "default"
