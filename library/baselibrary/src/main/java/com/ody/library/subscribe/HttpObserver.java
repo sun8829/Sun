@@ -10,10 +10,8 @@ import io.reactivex.disposables.Disposable;
  */
 
 public abstract class HttpObserver<T> implements Observer<T> {
-    private Context mContext;
 
-    protected HttpObserver(Context context) {
-        mContext = context.getApplicationContext();
+    protected HttpObserver() {
     }
 
     @Override

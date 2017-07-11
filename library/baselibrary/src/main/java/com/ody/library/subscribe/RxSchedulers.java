@@ -1,6 +1,6 @@
 package com.ody.library.subscribe;
 
-import com.ody.library.commonbean.BaseBean;
+import com.ody.library.base.BaseBean;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;

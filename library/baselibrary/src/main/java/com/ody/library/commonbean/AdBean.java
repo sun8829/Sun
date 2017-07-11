@@ -1,5 +1,7 @@
 package com.ody.library.commonbean;
 
+import com.ody.library.base.BaseBean;
+
 import java.util.List;
 
 /**

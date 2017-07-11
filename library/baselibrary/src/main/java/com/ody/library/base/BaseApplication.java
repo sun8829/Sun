@@ -25,7 +25,7 @@ public class BaseApplication extends Application implements RouterCallbackProvid
         Utils.init(this);
 
         //推送初始化
-        PushHelper.init(this, BuildConfig.IS_DEBUG);
+//        PushHelper.init(this, BuildConfig.IS_DEBUG);
 
         LogUtils.Builder logBuilder = new LogUtils.Builder();
         if (BuildConfig.IS_DEBUG) {

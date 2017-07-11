@@ -21,8 +21,16 @@ import com.ody.photopicker.PhotoPicker;
 import com.ody.photopicker.loader.ImageLoader;
 import com.ody.share.ShareHelper;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, MainView {
+
+    private MainPresenter mPresenter;
     private TextView mJumpTxt;
+
+    @Override
+    protected void preCreate() {
+        mPresenter = new MainPresenter(this);
+        super.preCreate();
+    }
 
     @Override
     protected int bindLayout() {
@@ -38,18 +46,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void initData() {
         super.initData();
         ShareHelper.init(this, "1dcb3e19d1c45");
-        MainHttpClient.get()
-                .compose(RxSchedulers.<AdBean>compose())
-                .compose(this.<AdBean>bindToLifecycle())
-                .subscribe(new HttpObserver<AdBean>(mContext) {
-
-                    @Override
-                    protected void success(AdBean bean) {
-                        super.success(bean);
-                    }
-
-                });
-
+        mPresenter.getAd();
     }
 
     @Override

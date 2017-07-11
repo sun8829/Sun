@@ -1,10 +1,10 @@
-package com.ody.library.commonbean;
+package com.ody.library.base;
 
 /**
  * Created by Samuel on 2017/5/4.
  */
 
-public abstract class BaseBean {
+public class BaseBean {
     private String code;
     private String message;
 
