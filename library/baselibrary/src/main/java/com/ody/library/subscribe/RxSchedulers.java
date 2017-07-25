@@ -32,12 +32,6 @@ public class RxSchedulers {
                             }
                         })
                         .subscribeOn(Schedulers.io())
-//                        .doOnSubscribe(new Consumer<Disposable>() {
-//                            @Override
-//                            public void accept(Disposable disposable) throws Exception {
-//
-//                            }
-//                        })
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };

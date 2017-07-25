@@ -1,6 +1,7 @@
 package com.ody.library.subscribe;
 
 import android.content.Context;
+import android.os.VibrationEffect;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -16,7 +17,7 @@ public abstract class HttpObserver<T> implements Observer<T> {
 
     @Override
     public final void onSubscribe(Disposable d) {
-
+        start();
     }
 
     @Override
@@ -34,6 +35,9 @@ public abstract class HttpObserver<T> implements Observer<T> {
         complete();
     }
 
+    protected void start() {
+
+    }
 
     protected void success(T t) {
     }
