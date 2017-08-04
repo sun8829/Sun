@@ -1,7 +1,7 @@
 package com.ody.bridge;
 
 
-public interface WebViewJavascriptBridge {
+public interface IBridge {
 
     void sendDataToHtml5(String data);
 

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class SuperWebView extends WebView implements WebViewJavascriptBridge {
+public class SuperWebView extends WebView implements IBridge {
 
     private final String TAG = "BridgeWebView";
 

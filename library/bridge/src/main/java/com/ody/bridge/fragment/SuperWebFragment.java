@@ -4,6 +4,7 @@ package com.ody.bridge.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.webkit.ConsoleMessage;
 import android.webkit.JsPromptResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ody.bridge.CallBackFunction;
 import com.ody.bridge.Html5EventListener;
@@ -26,6 +29,8 @@ public class SuperWebFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_URL = "url";
 
+    private ImageView mCloseImg;
+    private TextView mTitleTxt;
     private String mUrl;
     private SuperWebView mSuperWv;
 
@@ -64,7 +69,9 @@ public class SuperWebFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mSuperWv = (SuperWebView) view.findViewById(R.id.super_wv);
+        mSuperWv = view.findViewById(R.id.super_wv);
+        mCloseImg = view.findViewById(R.id.close);
+        mTitleTxt = view.findViewById(R.id.title);
         mSuperWv.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
@@ -75,6 +82,21 @@ public class SuperWebFragment extends Fragment {
             public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
                 result.confirm();
                 return true;
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                if (!TextUtils.isEmpty(title)) {
+                    mTitleTxt.setText(title);
+                }
+            }
+        });
+
+        mCloseImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
         mSuperWv.setDefaultHtml5EventListener(new Html5EventListener() {
