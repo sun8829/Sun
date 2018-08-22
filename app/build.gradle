@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 
+import groovy.swing.SwingBuilder
+
 android {
     signingConfigs {
         release {
             keyAlias 'laiyifen'
-            keyPassword 'laiyifen'
-            storeFile file('/keystore/laiyifen.key')
-            storePassword 'laiyifen'
+            keyPassword ''
+            storeFile file('./keystore/laiyifen.key')
+            storePassword ''
         }
     }
 
@@ -38,6 +40,24 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            //System.out.println("===" + requested.group + ":" + requested.name + ":" + requested.version + "===")
+            if (requested.group == 'com.android.support') {
+                details.useVersion '26.1.0'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -63,5 +83,42 @@ dependencies {
     }
     if (!rootProject.ext.android.userCenterIsApp) {
         compile project(':usercenter')
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(':app:assembleRelease') || taskGraph.hasTask(':app:assembleDebug')) {
+        def storePass = ''
+        def keyPass = ''
+        if (System.console() == null) {
+            new SwingBuilder().edt {
+                dialog(modal: true, title: '输入证书密码', alwaysOnTop: true, resizable: false, locationRelativeTo: null, pack: true, show: true) {
+                    vbox { // Put everything below each other
+                        label(text: "请输入storePassword:   ")
+                        def input1 = passwordField()
+                        label(text: "请输入keyPassword:    ")
+                        def input2 = passwordField()
+                        button(defaultButton: true, text: '确定', actionPerformed: {
+                            storePass = input1.password;
+                            keyPass = input2.password;
+                            dispose();
+                        })
+                    }
+                }
+            }
+        } else {
+            storePass = System.console().readPassword("\nPlease enter store passphrase: ")
+            keyPass = System.console().readPassword("\nPlease enter key passphrase: ")
+        }
+
+        if (storePass.size() <= 0 || keyPass.size() <= 0) {
+            throw new InvalidUserDataException("You must enter the passwords to proceed.")
+        }
+
+        storePass = new String(storePass)
+        keyPass = new String(keyPass)
+
+        android.signingConfigs.release.storePassword = storePass
+        android.signingConfigs.release.keyPassword = keyPass
     }
 }
