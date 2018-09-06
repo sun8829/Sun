@@ -63,6 +63,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+
     //路由
     annotationProcessor project(':library:compiler')
     compile project(':library:pickerphoto')
@@ -87,7 +88,7 @@ dependencies {
 }
 
 gradle.taskGraph.whenReady { taskGraph ->
-    if (taskGraph.hasTask(':app:assembleRelease') || taskGraph.hasTask(':app:assembleDebug')) {
+    if (taskGraph.hasTask(':app:assembleRelease')) {
         def storePass = ''
         def keyPass = ''
         if (System.console() == null) {

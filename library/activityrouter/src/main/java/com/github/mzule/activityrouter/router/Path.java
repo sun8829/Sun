@@ -3,7 +3,7 @@ package com.github.mzule.activityrouter.router;
 import android.net.Uri;
 
 /**
- * Created by CaoDongping on 4/7/16.
+ * Created by Samuel on 4/7/16.
  */
 public class Path {
     private final String value;

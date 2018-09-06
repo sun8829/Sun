@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * Created by CaoDongping on 6/1/16.
+ * Created by Samuel on 6/1/16.
  */
 public class UriCompact {
 

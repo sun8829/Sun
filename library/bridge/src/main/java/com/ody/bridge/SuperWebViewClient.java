@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 /**
- * Created by bruce on 10/28/15.
+ * Created by Samuel on 10/28/15.
  */
 public class SuperWebViewClient extends WebViewClient {
     private SuperWebView webView;

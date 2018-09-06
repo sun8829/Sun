@@ -3,7 +3,7 @@ package com.github.mzule.activityrouter.router;
 import java.util.Map;
 
 /**
- * Created by CaoDongping on 4/6/16.
+ * Created by Samuel on 4/6/16.
  */
 public class ExtraTypes {
     public static final int STRING = -1;

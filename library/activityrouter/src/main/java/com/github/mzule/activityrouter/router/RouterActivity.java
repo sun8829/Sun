@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 /**
- * Created by CaoDongping on 4/6/16.
+ * Created by Samuel on 4/6/16.
  */
 public class RouterActivity extends Activity {
     @Override
